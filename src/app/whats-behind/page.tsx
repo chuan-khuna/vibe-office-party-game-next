@@ -158,7 +158,8 @@ export default function WhatsBehind() {
     const states: Record<string, boolean> = {}
     for (let row = 0; row < numRows; row++) {
       for (let col = 0; col < numCols; col++) {
-        states[`${row}_${col}`] = true // Initially all are hidden
+        // is the cell at `row_col` hidden or not?
+        states[`${row}_${col}`] = true
       }
     }
     setGridState(states)
@@ -176,6 +177,28 @@ export default function WhatsBehind() {
       ...prevStates,
       [key]: !prevStates[key], // Toggle the state
     }))
+  }
+
+  const handleShowAll = () => {
+    if (!gridState) return
+    const newStates: Record<string, boolean> = {}
+    for (let row = 0; row < numRows; row++) {
+      for (let col = 0; col < numCols; col++) {
+        newStates[`${row}_${col}`] = false
+      }
+    }
+    setGridState(newStates)
+  }
+
+  const handleHideAll = () => {
+    if (!gridState) return
+    const newStates: Record<string, boolean> = {}
+    for (let row = 0; row < numRows; row++) {
+      for (let col = 0; col < numCols; col++) {
+        newStates[`${row}_${col}`] = true
+      }
+    }
+    setGridState(newStates)
   }
 
   return (
@@ -206,6 +229,23 @@ export default function WhatsBehind() {
 
           <div className="flex flex-col gap-2 items-center w-full max-w-md">
             <FileUploadInput setImageFn={setImageBase64} />
+          </div>
+
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onDoubleClick={handleShowAll}
+              disabled={!imageBase64}
+            >
+              Show All
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleHideAll}
+              disabled={!imageBase64}
+            >
+              Hide All
+            </Button>
           </div>
         </div>
 
