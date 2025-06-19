@@ -5,12 +5,35 @@ import { Slider } from '@/components/ui/slider'
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 
-export function InputFile() {
+export function InputFile({
+  setImageFn,
+}: {
+  setImageFn: (image: string) => void
+}) {
   return (
-    <div className="grid w-full max-w-sm items-center gap-3">
-      <Label htmlFor="picture">Picture</Label>
+    <div className="flex w-full max-w-sm items-center gap-2">
       <Input id="picture" type="file" />
+
+      <Button
+        type="submit"
+        variant="outline"
+        onClick={() => {
+          const fileInput =
+            document.querySelector<HTMLInputElement>('input[type="file"]')
+          if (fileInput?.files?.length) {
+            const file = fileInput.files[0]
+            const reader = new FileReader()
+            reader.onloadend = () => {
+              setImageFn(reader.result as string)
+            }
+            reader.readAsDataURL(file)
+          }
+        }}
+      >
+        Upload
+      </Button>
     </div>
   )
 }
@@ -145,24 +168,7 @@ export default function WhatsBehind() {
           />
 
           <div className="flex flex-col gap-2 items-center w-full max-w-md">
-            <InputFile />
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-              onClick={() => {
-                const fileInput =
-                  document.querySelector<HTMLInputElement>('input[type="file"]')
-                if (fileInput?.files?.length) {
-                  const file = fileInput.files[0]
-                  const reader = new FileReader()
-                  reader.onloadend = () => {
-                    setImageBase64(reader.result as string)
-                  }
-                  reader.readAsDataURL(file)
-                }
-              }}
-            >
-              Upload Image
-            </button>
+            <InputFile setImageFn={setImageBase64} />
           </div>
         </div>
 
