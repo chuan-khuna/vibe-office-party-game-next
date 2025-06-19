@@ -129,7 +129,7 @@ export function ImageWithGrid({
                 }}
               >
                 {state[`${row}_${col}`] && (
-                  <span className="text-white text-m font-mono flex justify-center items-center h-full">
+                  <span className="text-white text-m font-mono flex justify-center items-center h-full select-none">
                     {row},{col}
                   </span>
                 )}
