@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Slider } from '@/components/ui/slider'
 
 import { Input } from '@/components/ui/input'
@@ -19,10 +19,14 @@ export function ImageWithGrid({
   imageBase64,
   numRows,
   numCols,
+  state,
+  toggleFn: handleToggleCellState,
 }: {
   imageBase64: string
   numRows: number
   numCols: number
+  state: Record<string, boolean>
+  toggleFn: (row: number, col: number) => void
 }) {
   return (
     <div className="relative">
@@ -53,12 +57,25 @@ export function ImageWithGrid({
             gridTemplateColumns: `repeat(${numCols}, 1fr)`,
           }}
         >
-          {Array.from({ length: numRows * numCols }).map((_, index) => (
-            <div
-              key={index}
-              className="border border-gray-400/50 hover:bg-black/10"
-            />
-          ))}
+          {Array.from({ length: numRows }).map((_, row) =>
+            Array.from({ length: numCols }).map((_, col) => (
+              <div
+                key={`${row}_${col}`}
+                className={`border border-white/50  ${
+                  state[`${row}_${col}`] ? 'bg-black/100' : ''
+                }`}
+                onClick={() => {
+                  handleToggleCellState(row, col)
+                }}
+              >
+                {state[`${row}_${col}`] && (
+                  <span className="text-white text-m font-mono flex justify-center items-center h-full">
+                    {row},{col}
+                  </span>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
@@ -73,6 +90,33 @@ export default function WhatsBehind() {
   const [numRows, setNumRows] = useState(5)
   const [numCols, setNumCols] = useState(5)
   const [imageBase64, setImageBase64] = useState('')
+
+  const [gridState, setGridState] = useState<Record<string, boolean>>()
+
+  const generateDefaultGameStates = () => {
+    // object with key `row_col` and the value boolean indicating whether the background image is hidden or not
+    const states: Record<string, boolean> = {}
+    for (let row = 0; row < numRows; row++) {
+      for (let col = 0; col < numCols; col++) {
+        states[`${row}_${col}`] = true // Initially all are hidden
+      }
+    }
+    setGridState(states)
+  }
+
+  React.useEffect(() => {
+    generateDefaultGameStates()
+  }, [numRows, numCols])
+
+  const handleToggleCellState = (row: number, col: number) => {
+    console.log(`Toggling cell at row ${row}, col ${col}`)
+    if (!gridState) return
+    const key = `${row}_${col}`
+    setGridState((prevStates) => ({
+      ...prevStates,
+      [key]: !prevStates[key], // Toggle the state
+    }))
+  }
 
   return (
     <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -129,6 +173,8 @@ export default function WhatsBehind() {
               imageBase64={imageBase64}
               numRows={numRows}
               numCols={numCols}
+              state={gridState}
+              toggleFn={handleToggleCellState}
             />
           </div>
         )}
