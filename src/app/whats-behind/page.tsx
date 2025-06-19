@@ -7,15 +7,52 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 
-export function InputFile({
+export function CustomShadCnFileInput() {
+  const [fileName, setFileName] = useState('')
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setFileName(file.name)
+    }
+  }
+
+  return (
+    <div className="relative w-fit group">
+      {/* Hidden actual input */}
+      <Input
+        id="picture"
+        type="file"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+
+      {/* Styled label acts as visible trigger */}
+      <label
+        htmlFor="picture"
+        className="cursor-pointer bg-gray-100 border border-gray-300 rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-200"
+      >
+        {fileName ? 'Hover here to show file path' : 'Choose a file'}
+      </label>
+
+      {/* Tooltip on hover to show filename */}
+      {fileName && (
+        <div className="absolute left-0 mt-1 w-max bg-black text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          {fileName}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export function FileUploadInput({
   setImageFn,
 }: {
   setImageFn: (image: string) => void
 }) {
   return (
     <div className="flex w-full max-w-sm items-center gap-2">
-      <Input id="picture" type="file" />
-
+      <CustomShadCnFileInput />
       <Button
         type="submit"
         variant="outline"
@@ -168,7 +205,7 @@ export default function WhatsBehind() {
           />
 
           <div className="flex flex-col gap-2 items-center w-full max-w-md">
-            <InputFile setImageFn={setImageBase64} />
+            <FileUploadInput setImageFn={setImageBase64} />
           </div>
         </div>
 
