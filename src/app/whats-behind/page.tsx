@@ -89,7 +89,7 @@ export function ImageWithGrid({
   toggleFn: (row: number, col: number) => void
 }) {
   return (
-    <div className="relative w-full">
+    <div className="relative w-full max-w-[1440px] mx-auto">
       <img
         src={imageBase64}
         className="absolute w-full h-auto"
