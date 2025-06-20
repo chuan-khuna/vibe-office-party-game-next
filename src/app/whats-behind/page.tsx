@@ -89,17 +89,15 @@ export function ImageWithGrid({
   toggleFn: (row: number, col: number) => void
 }) {
   return (
-    <div className="relative">
-      {/* Use an img to get the actual dimensions */}
+    <div className="relative w-full">
       <img
         src={imageBase64}
-        className=" absolute"
+        className="absolute w-full h-auto"
         alt="Hidden reference image"
         onLoad={(e) => {
           const img = e.target as HTMLImageElement
           const container = img.parentElement
           if (container) {
-            // Set container aspect ratio to match image
             container.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`
           }
         }}
