@@ -119,7 +119,7 @@ export function ImageWithGrid({
             Array.from({ length: numCols }).map((_, col) => (
               <div
                 key={`${row}_${col}`}
-                className={`border border-white/50  ${
+                className={`border border-white/10  ${
                   state[`${row}_${col}`] ? 'bg-black/100' : ''
                 }`}
                 onClick={() => {
