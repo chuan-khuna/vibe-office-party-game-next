@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import React, { useState, useEffect } from 'react'
 import { Slider } from '@/components/ui/slider'
@@ -10,6 +10,8 @@ import {
   FileUploadInput,
   ImageWithGrid,
 } from './whats-behind-components'
+
+import { ImageUploader } from '@/components/input/image-uploader'
 
 export default function WhatsBehind() {
   const sliderMax = 15
@@ -90,7 +92,7 @@ export default function WhatsBehind() {
             onValueChange={(val) => setNumCols(val[0])}
           />
           <div className="flex flex-col gap-2 items-center w-full max-w-md">
-            <FileUploadInput setImageFn={setImageBase64} />
+            <ImageUploader handleUploadImage={setImageBase64} />
           </div>
           <div className="flex gap-2">
             <Button
