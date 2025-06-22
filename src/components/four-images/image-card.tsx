@@ -19,7 +19,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 
-import Image from 'next/image'
+import { Trash2 } from 'lucide-react'
 
 export const ImageCard = ({
   base64,
@@ -66,12 +66,8 @@ export const ImageCard = ({
       <CardFooter>
         {isHidden && (
           <div className="flex justify-center w-full">
-            <Button
-              variant="link"
-              className="text-red-500"
-              onClick={() => handleDeleteFunc(idx)}
-            >
-              Delete
+            <Button variant="secondary" onClick={() => handleDeleteFunc(idx)}>
+              <Trash2 /> Delete
             </Button>
           </div>
         )}
@@ -80,7 +76,7 @@ export const ImageCard = ({
           <Dialog modal>
             <DialogTrigger asChild>
               <div className="flex justify-center w-full">
-                <Button variant="link">View Full Image</Button>
+                <Button variant="secondary">View Full Image</Button>
               </div>
             </DialogTrigger>
             <DialogContent className="!max-w-[1200px] w-[95vw] max-h-[95vh] overflow-hidden p-0 flex flex-col">
