@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-
+import { Button } from '@/components/ui/button'
 import { ImageUploader } from '@/components/input/image-uploader'
 import { ImageCard } from '@/components/four-images/image-card'
 import {
@@ -37,8 +37,13 @@ export default function FourImages() {
     )
   }
 
+  const handleResetImages = () => {
+    setImageBase64List([])
+  }
+
   return (
     <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] flex flex-col items-center">
+      <Button onClick={handleResetImages}>Reset Game</Button>
       <div className="w-full max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-8">
         {imageBase64List.map((data, idx) => (
           <ImageCard
