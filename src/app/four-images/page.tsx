@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { ImageUploader } from '@/components/input/image-uploader'
-import { ImagePreview } from '@/components/input/image-preview'
-
+import { ImageCard } from '@/components/four-images/image-card'
 import {
   Card,
   CardAction,
@@ -16,25 +15,47 @@ import {
 } from '@/components/ui/card'
 
 export default function FourImages() {
-  const MAX_IMAGES = 6
-
-  const [imageBase64List, setImageBase64List] = useState<string[]>([])
+  const [imageBase64List, setImageBase64List] = useState<
+    { base64: string; isHidden: boolean }[]
+  >([])
 
   const handleUploadImage = (base64: string) => {
-    if (imageBase64List.length < MAX_IMAGES) {
-      setImageBase64List((prevList) => [...prevList, base64])
-    } else {
-      //  remove the oldest image if the limit is reached
-      setImageBase64List((prevList) => {
-        const newList = [...prevList.slice(1), base64]
-        return newList
-      })
-    }
+    setImageBase64List((prevList) => [
+      ...prevList,
+      {
+        base64,
+        isHidden: false,
+      },
+    ])
+  }
+
+  const handleToggleImageVisibility = (index: number) => {
+    setImageBase64List((prevList) =>
+      prevList.map((item, idx) =>
+        idx === index ? { ...item, isHidden: !item.isHidden } : item
+      )
+    )
   }
 
   return (
-    <div className="in-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <ImageUploader handleUploadImage={handleUploadImage} />
+    <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] flex flex-col items-center">
+      <div className="w-full max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-8">
+        {imageBase64List.map((data, idx) => (
+          <ImageCard
+            key={idx}
+            base64={data.base64}
+            isHidden={data.isHidden}
+            idx={idx}
+            onToggleVisibility={handleToggleImageVisibility}
+          />
+        ))}
+        {/* Last card: input uploader */}
+        <Card>
+          <CardContent>
+            <ImageUploader handleUploadImage={handleUploadImage} />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
