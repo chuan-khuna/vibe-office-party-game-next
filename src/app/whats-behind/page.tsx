@@ -5,12 +5,7 @@ import { Slider } from '@/components/ui/slider'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import {
-  CustomShadCnFileInput,
-  FileUploadInput,
-  ImageWithGrid,
-} from './whats-behind-components'
-
+import { ImageWithGrid } from '@/components/whats-behind/image-grid'
 import { ImageUploader } from '@/components/input/image-uploader'
 
 export default function WhatsBehind() {
