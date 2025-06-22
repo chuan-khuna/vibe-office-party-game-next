@@ -25,19 +25,21 @@ export const ImageCard = ({
   base64,
   isHidden,
   idx,
-  onToggleVisibility,
+  handleToggleVisibility,
+  handleDeleteFunc,
 }: {
   base64: string
   isHidden: boolean
   idx: number
-  onToggleVisibility: (idx: number) => void
+  handleToggleVisibility: (idx: number) => void
+  handleDeleteFunc?: (idx: number) => void
 }) => {
   return (
     <Card key={idx}>
       <CardContent>
         <div
           className="relative cursor-pointer"
-          onClick={() => onToggleVisibility(idx)}
+          onClick={() => handleToggleVisibility(idx)}
         >
           <img
             src={base64}
@@ -60,12 +62,25 @@ export const ImageCard = ({
       </div> */}
 
       {/* if image isn't hidden show button to view full image size*/}
-      {!isHidden && (
-        <CardFooter>
+
+      <CardFooter>
+        {isHidden && (
+          <div className="flex justify-center w-full">
+            <Button
+              variant="link"
+              className="text-red-500"
+              onClick={() => handleDeleteFunc(idx)}
+            >
+              Delete
+            </Button>
+          </div>
+        )}
+
+        {!isHidden && (
           <Dialog modal>
             <DialogTrigger asChild>
-              <div className="flex justify-center">
-                <Button variant="outline">View Full Image</Button>
+              <div className="flex justify-center w-full">
+                <Button variant="link">View Full Image</Button>
               </div>
             </DialogTrigger>
             <DialogContent className="!max-w-[1200px] w-[95vw] max-h-[95vh] overflow-hidden p-0 flex flex-col">
@@ -87,8 +102,8 @@ export const ImageCard = ({
               </div>
             </DialogContent>
           </Dialog>
-        </CardFooter>
-      )}
+        )}
+      </CardFooter>
     </Card>
   )
 }

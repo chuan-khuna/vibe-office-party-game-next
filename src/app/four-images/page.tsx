@@ -41,6 +41,10 @@ export default function FourImages() {
     setImageBase64List([])
   }
 
+  const handleDeleteImage = (index: number) => {
+    setImageBase64List((prevList) => prevList.filter((_, idx) => idx !== index))
+  }
+
   return (
     <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] flex flex-col items-center">
       <Button onClick={handleResetImages}>Reset Game</Button>
@@ -51,7 +55,8 @@ export default function FourImages() {
             base64={data.base64}
             isHidden={data.isHidden}
             idx={idx}
-            onToggleVisibility={handleToggleImageVisibility}
+            handleToggleVisibility={handleToggleImageVisibility}
+            handleDeleteFunc={handleDeleteImage}
           />
         ))}
         {/* Last card: input uploader */}
