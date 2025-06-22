@@ -68,15 +68,21 @@ export const ImageCard = ({
                 <Button variant="outline">View Full Image</Button>
               </div>
             </DialogTrigger>
-            <DialogContent className="!max-w-[1200px] w-[80vw] max-h-[90vh] overflow-auto p-0">
-              <DialogHeader className="p-6 pb-2">
-                <DialogTitle></DialogTitle>
+            <DialogContent className="!max-w-[1200px] w-[95vw] max-h-[95vh] overflow-hidden p-0 flex flex-col">
+              <DialogHeader className="p-4 pb-2 flex-shrink-0">
+                <DialogTitle>Full Image View</DialogTitle>
               </DialogHeader>
-              <div className="px-6 pb-6">
+              <div className="flex-1 flex items-center justify-center p-4 min-h-0">
                 <img
                   src={base64}
                   alt={`Uploaded ${idx + 1}`}
-                  className="w-full h-auto rounded mx-auto max-w-[1200px] max-h-[80vh] object-contain"
+                  className="max-w-full max-h-full object-contain rounded"
+                  style={{
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    width: 'auto',
+                    height: 'auto',
+                  }}
                 />
               </div>
             </DialogContent>
