@@ -68,17 +68,17 @@ export const ImageCard = ({
                 <Button variant="outline">View Full Image</Button>
               </div>
             </DialogTrigger>
-            <DialogContent className="max-w-[1200px] w-full max-h-[90vh] overflow-auto">
-              <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
-                <DialogDescription>
-                  <img
-                    src={base64}
-                    alt={`Uploaded ${idx + 1}`}
-                    className="max-w-full h-auto rounded mx-auto"
-                  />
-                </DialogDescription>
+            <DialogContent className="!max-w-[1200px] w-[80vw] max-h-[90vh] overflow-auto p-0">
+              <DialogHeader className="p-6 pb-2">
+                <DialogTitle></DialogTitle>
               </DialogHeader>
+              <div className="px-6 pb-6">
+                <img
+                  src={base64}
+                  alt={`Uploaded ${idx + 1}`}
+                  className="w-full h-auto rounded mx-auto max-w-[1200px] max-h-[80vh] object-contain"
+                />
+              </div>
             </DialogContent>
           </Dialog>
         </CardFooter>
