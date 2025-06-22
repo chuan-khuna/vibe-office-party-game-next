@@ -9,10 +9,10 @@ export function ImageUploader({
   },
 }) {
   const [imageBase64, setImageBase64] = useState('')
+  const [dragActive, setDragActive] = useState(false)
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
+  const handleFile = (file: File) => {
+    if (file && file.type.startsWith('image/')) {
       const reader = new FileReader()
       reader.onloadend = () => {
         const base64 = reader.result as string
@@ -23,7 +23,18 @@ export function ImageUploader({
     }
   }
 
-  const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      handleFile(file)
+    }
+  }
+
+  const handlePaste = (
+    event:
+      | React.ClipboardEvent<HTMLInputElement>
+      | React.ClipboardEvent<HTMLDivElement>
+  ) => {
     const items = event.clipboardData?.items
     if (items) {
       for (const item of items) {
@@ -43,22 +54,51 @@ export function ImageUploader({
     }
   }
 
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActive(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActive(false)
+  }
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActive(false)
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0]
+      handleFile(file)
+    }
+  }
+
   return (
-    <div className="flex gap-4 w-lg">
+    <div className="flex flex-col gap-4 w-lg max-w-md mx-auto">
       <div
-        className="flex-1 border border-dashed border-gray-400 rounded p-4 flex flex-col items-center justify-center text-center min-h-[120px] hover:bg-gray-50 transition"
+        className={`border border-dashed border-gray-400 rounded p-4 flex flex-col items-center justify-center text-center min-h-[120px] hover:bg-gray-50 transition ${
+          dragActive ? 'bg-blue-100 border-blue-400' : ''
+        }`}
         tabIndex={0}
         style={{ outline: 'none' }}
         onPaste={(e) => {
           e.preventDefault()
           handlePaste(e)
         }}
+        onDragOver={handleDragOver}
+        onDragEnter={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
       >
-        <div className="mb-2">Paste an image here</div>
+        <div className="mb-2">Paste, drag & drop, or select an image</div>
         <Label htmlFor="image-upload" className="w-full flex justify-center">
           <Button
             type="button"
             className="w-full"
+            variant="outline"
             onClick={() => {
               const input = document.getElementById(
                 'image-upload'
@@ -74,26 +114,21 @@ export function ImageUploader({
             accept="image/*"
             className="hidden"
             tabIndex={-1}
-            onChange={(e) => {
-              handleFileChange(e)
-            }}
+            onChange={handleFileChange}
           />
         </Label>
       </div>
-
-      <div className="flex-1 flex items-center justify-center">
-        <Button
-          type="button"
-          className="w-full"
-          onClick={() => {
-            if (imageBase64) {
-              handleUploadImage(imageBase64)
-            }
-          }}
-        >
-          Upload
-        </Button>
-      </div>
+      <Button
+        type="button"
+        className="w-full mt-4"
+        onClick={() => {
+          if (imageBase64) {
+            handleUploadImage(imageBase64)
+          }
+        }}
+      >
+        Upload
+      </Button>
     </div>
   )
 }
