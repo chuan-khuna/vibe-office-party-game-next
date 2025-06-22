@@ -24,7 +24,7 @@ export default function FourImages() {
       ...prevList,
       {
         base64,
-        isHidden: false,
+        isHidden: true,
       },
     ])
   }
