@@ -32,7 +32,7 @@ export const ImageCard = ({
   isHidden: boolean
   idx: number
   handleToggleVisibility: (idx: number) => void
-  handleDeleteFunc?: (idx: number) => void
+  handleDeleteFunc: (idx: number) => void
 }) => {
   return (
     <Card key={idx}>
