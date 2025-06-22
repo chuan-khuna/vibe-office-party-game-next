@@ -92,7 +92,7 @@ export default function WhatsBehind() {
           <div className="flex gap-2">
             <Button
               variant="outline"
-              onDoubleClick={handleShowAll}
+              onClick={handleShowAll}
               disabled={!imageBase64}
             >
               Show All

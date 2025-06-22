@@ -45,7 +45,7 @@ export function ImageUploader({
             reader.onloadend = () => {
               const base64 = reader.result as string
               setImageBase64(base64)
-            //   handleUploadImage(base64)
+              //   handleUploadImage(base64)
             }
             reader.readAsDataURL(file)
           }
@@ -80,7 +80,7 @@ export function ImageUploader({
     <div className="flex flex-col gap-0 max-w-md mx-auto">
       <div
         className={`border border-dashed border-gray-400 rounded p-4 flex flex-col items-center justify-center text-center min-h-[120px] hover:bg-gray-50 transition ${
-          dragActive ? 'bg-blue-100 border-blue-400' : ''
+          dragActive ? 'bg-pink-100 border-pink-400' : ''
         }`}
         tabIndex={0}
         style={{ outline: 'none' }}
